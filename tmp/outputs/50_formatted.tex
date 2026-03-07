@@ -1,0 +1,212 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Interpretable Mental Disorder Classification Using Attention-Based Neural Networks and SHAP Explainability}
+
+\author{
+\IEEEauthorblockN{Sandhya Arora}
+\IEEEauthorblockA{\textit{MKSSS's Cummins College of Engineering for Women} \\
+\textit{Pune} \\
+\textit{India} \\
+sandhya.arora@cumminscollege.in}
+\and 
+\IEEEauthorblockN{Rajasi Barapatre}
+\IEEEauthorblockA{\textit{MKSSS's Cummins College of Engineering for Women} \\
+\textit{Pune} \\
+\textit{India} \\
+rajasi.barapatre@gmail.com}
+\and 
+\IEEEauthorblockN{Ketaki Paranjape}
+\IEEEauthorblockA{\textit{MKSSS's Cummins College of Engineering for Women} \\
+\textit{Pune} \\
+\textit{India} \\
+ketakiparanjape1411@gmail.com}
+}
+
+\maketitle
+\begin{abstract}
+Mental health disorders affect millions of people worldwide. Accurate diagnosis of it is difficult due as it has complex psychological symptoms. This paper introduces an attention-based neural network for mental order classification along with SHAP. SHAP helps for improved understanding and interpreting mental disorders. We use 17 behavioural symptoms to classify type 1 and type 2 bipolar disorder, depression and normal individuals. The attention mechanism helps the model focus on clinically relevant symptom patterns. SHAP analysis clarifies diagnostic decisions. The model gave 99.3\% training accuracy and 90\% validation accuracy on the psychology patient dataset we used. SHAP visualizations show interactions of features, affirming medical understanding of results. The results show that symptoms like elevated mood and energy levels distinguish bipolar subtypes. Medical personnel can readily use this tool for accurate and transparent diagnosis given its performance and explainable insights.
+\end{abstract}
+
+
+\textbf{Additional Keywords and Phrases}
+
+Mental Disorder, Explainable AI, Attention Mechanism, SHAP, Neural Networks, Psychiatric diagnosis
+
+\textbf{CCS CONCEPTS}
+
+• Computing methodologies → Machine learning • Computing methodologies → Artificial intelligence • Applied computing → Life and medical sciences
+
+\section{Introduction}
+
+Mental health illnesses impact about a billion individuals worldwide. Accurate diagnosis is difficult because moods are unpredictable and symptoms also overlap. Along with that, clinical tests are subjective. Computational methods can examine a lot of patient data, but traditional machine learning models can sometimes be vague, making predictions without giving clear reasons. This lack of clarity makes it very hard for doctors to trust medical information because they cannot check the model thinking, which is required for understanding how and why symptoms relate. Explainable AI is now an important field which aims to make AI decisions easy to check and understand. To address this, our work presents a procedure that integrates deep learning with attention mechanisms for weighing symptoms and SHAP analysis. This gives a very accurate diagnosis and also gives proper explanations that are helpful for psychiatrists. It shows the important features that help tell the difference and the logic behind decisions.
+
+\section{Related Work}
+
+Mental health has a huge impact on how people think, feel and act in social situations. It also has an effect on how people deal with stress, perform at work and reach their full potential. Depression, anxiety and stress are some of the main factors that can cause mental illness, so it is important to catch these early. People are increasingly using AI and machine learning to predict and monitor these conditions.
+
+Srividya et al. {[}1{]} accomplished early detection by employing questionnaire data and machine learning methods, including SVM, DT, NB, KNN and LR. Rahman et al. {[}2{]} examined 22 studies using Online Social Networks (OSNs) and highlighted hybrid models that integrate surveys and social media. Chung et al. {[}3{]} stated that CNN, RF, DNN and ELM worked well with medical and social media data, especially CNN for bipolar disorders. According to Cho G and Tate AE {[}4,5{]}, SVM GBM, RF, NB and KNN were commonly used. However, they questioned the difference between the techniques and the features of the datasets. Iyortsuun NK et al. {[}6{]} discussed data concerns and the availability of public datasets while reviewing 33 studies under PRISMA that addressed a range of conditions, including PTSD and ADHD. Le Glaz A et al. {[}7{]} emphasized ML and NLP for behavioral insights from daily activity or social media but raised concerns about cultural and ethical implications. Interpretability has been addressed by Chen P et al. {[}8{]} using attention-based neural networks for heart failure data, and Shawly T et al. {[}9{]} with a Novel Attention Module (NAM) for EEG-based epilepsy detection. Ahmed U et al. {[}10{]} proposed a fuzzy attention-based model achieving high F1-scores in emotional classification. Ibrahimov Y et al. {[}11{]} reviewed ML and explainability in social media-based mental health detection. Dalal S et al. {[}12{]} introduced PSAT, a clinical-knowledge-infused transformer for depression detection. Shaik T {[}13{]} proposed a Quantitative Explainability Framework using SHAP. Tanwar R et al. {[}14{]} made use of multimodal wearable data with CNN-LSTM. Jain D et al. {[}15,16{]} used BERT and neural models for personality and psychopathy detection. These research highlight AI\textquotesingle s potential for precise and understandable mental health diagnosis. Our proposed study uses attention-based deep learning to accurately categorize a variety of mental diseases. It also applies SHAP explainability to provide clear insights into symptom correlations and diagnostic decisions.
+
+\section{Materials and Methods}
+
+The study utilizes a comprehensive publicly available dataset from Kaggle titled \emph{``}Mental Disorder Classification\emph{''} {[}17{]} consisting of anonymous records. 120 psychology patients with documented diagnoses across four categories: Type 1 and Type 2 Bipolar Disorder, Depression, and normal individuals have been reported. As the dataset is publicly released for research and educational purposes with all personal information removed, separate institutional ethics approval was not required for this work. It comprises of 17 diagnostically essential behavioral symptoms identified by psychiatric professionals: sadness, exhaustion, euphoria, sleep disorder, mood swings, suicidal thoughts, anorexia, anxiety, try-explaining, nervous breakdown, ignore and move-on, admitting mistakes, overthinking, aggressive response, optimism, sexual activity and concentration. The "Normal" category represents individuals seeking therapy for personal development, who may experience minor concerns but do not meet criteria for major psychiatric disorders.
+
+An 80:20 split divided the dataset into training and test sets, with stratified data ensuring the original class distribution was retained across both. From the training set, a 20\% validation subset was later held out. Categorical symptom severity levels were converted into a numeric format using Label Encoding. To create a uniform input feature space and reduce the risk of model bias from various measurement scales, the features were standardized using StandardScaler. For training, we used sparse categorical cross-entropy loss and the Adam optimizer, with learning rate of 1e-3. To avoid overfitting and keep the best performing weights, we used early stopping with respect to validation loss with a 15 epoch as patience. Batch normalization was added to increase generality. The training was done for a maximum of 150 epochs with a batch size of 16.
+
+\subsection{Proposed Architecture}
+
+Our architecture starts with an input layer. It gets 17 standardized symptom features. Then comes a custom attention block that finds feature-wise relevance scores. The attention mechanism works in a two-stage process: first, input features are transformed through a dense layer with ReLU activation, second the attention scores are calculated and normalized using softmax to generate attention probabilities. Mathematically, this process is defined as:
+
+
+\begin{equation}
+A(X) = W_{a} \cdot ReLU(W_{h } \cdot X + b_{h}) + b_{a}
+\label{eq1}
+\end{equation}
+
+
+
+\begin{equation}
+\alpha_{i } = softmax(A_{i}) = \frac{\exp(A_{i})}{\sum_{j = 1}^{n}\exp(A_{j})}
+\label{eq2}
+\end{equation}
+
+
+
+\begin{equation}
+X_{attended} = X \odot \alpha
+\label{eq3}
+\end{equation}
+
+
+Where \(X\ in\ {\mathbb{R}}\ ^{d}\) represents the input symptom vector, \(W_{h}\) and \(W_{a}\)are learnable weight matrices, \(b_{h}\)and \(b_{a}\)are bias vectors, and \(\odot\) denotes element-wise multiplication.
+
+The attended features are subsequently processed through a primary dense layer (128 neurons, ReLU activation), batch normalization, and dropout regularization (p=0.4), followed by a secondary dense layer (64 neurons, ReLU activation), additional batch normalization, dropout (p=0.3), and a final softmax output layer for four-class diagnosis classification. The model employs Adam optimizer with loss function as sparse categorical cross-entropy:
+
+
+\begin{equation}
+L(\theta) = - \frac{1}{N}\sum_{i = 1}^{N}\sum_{j = 1}^{C}y_{ij} \cdot \log(\widehat{y_{ij}}) + \lambda||\theta||_{2}
+\label{eq4}
+\end{equation}
+
+
+where N is the number of samples, C is the number of classes, \(y_{ij\ }\)is the true label indicator, \(\widehat{y_{ij}}\) gives the predicted probability, \(\theta\) represents the trainable parameters and \(\lambda\) is the L2 regularization coefficient.
+
+\includegraphics[width=2.72569in,height=1.68535in]{/Users/ketakiparanjape/Documents/Projects/FormatNowAG/tmp/uploads/media/image4.jpg}\includegraphics[width=3.19663in,height=1.68244in]{/Users/ketakiparanjape/Documents/Projects/FormatNowAG/tmp/uploads/media/image1.jpg}
+
+Fig 1. Overview of the Proposed Architecture
+
+\subsection{Explainability Analysis}
+
+To improve interpretability for the proposed attention-based diagnostic model, a follow-up explainability analysis was conducted using SHAP (SHapley Additive exPlanations). By computing an importance value for each feature relative to a prediction, this method provides an added decomposition of the model\textquotesingle s output into the individual contributions of its inputs. The GradientExplainer variant of SHAP was selected for this study, as it is well-suited for deep learning architectures and its efficient computation of feature importance using gradient backpropagation.
+
+The reference distribution used to compute SHAP values for each prediction in the test set was a background dataset consisting of 50 randomly chosen training samples. The resulting SHAP values measured the impact of each symptom on prediction for each test instance. They said whether a feature helped or disturbed the expected diagnosis. We got a global view of feature relevance. It emphasizes the most significant symptom patterns found by the model by combining these local explanations throughout the test set. As a result, the research offers therapeutically useful information. Along with that it gives an open view into the model\textquotesingle s decision-making process. Particularly, there is a strong correlation between a class and symptom patterns with consistently high positive SHAP scores.
+
+\section{Results}
+
+Figure 2 illustrates our model\textquotesingle s training patterns. It shows the accuracy and loss curves for both training and validation. Training accuracy of 99.30\% and validation accuracy of 90\% showed strong generalization.
+
+\includegraphics[width=3.79432in,height=1.56169in]{/Users/ketakiparanjape/Documents/Projects/FormatNowAG/tmp/uploads/media/image2.png}
+
+Fig 2. Accuracy and Loss plots
+
+The loss curves show a consistent decrease in both losses. This suggests functional learning in the entire training process. Training history shows clear convergence, with early stopping at epoch 120. It thus achieved optimal validation performance at this point. The classification metrics showed balanced precision, recall, and F1‑scores across all four diagnostic categories. These values generally range from 0.7 to 1.0, indicating consistent performance.
+
+\begin{table}[htbp]
+\centering
+\caption{Performance comparison between our model and benchmark classifier}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model}
+ & 
+\textbf{Training Accuracy}
+ & 
+\textbf{Validation Accuracy}
+ \\
+Our Model
+ & 
+99.3\%
+ & 
+90.0\%
+ \\
+XGBoost
+ & 
+100\%
+ & 
+75.0\%
+ \\
+
+\hline
+\end{tabular}
+\end{table}
+
+
+From Table 1, it is evident that the proposed model outperforms the XGBoost benchmark in validation performance, demonstrating better generalization and reduced overfitting.
+
+\subsection{SHAP Explainability Analysis}
+
+SHAP analysis across the four diagnostic classes reveals distinct patterns of symptom contributions that influence the model\textquotesingle s decisions. Mood swings have a significant predictive power for Type 1 Bipolar disorder within a small range (±0.15). Conversely, aggressive reaction and optimism have value-dependent effects, with high values signifying transitions between manic and depressive states and low values having a negative effect. Euphoric feelings at high levels positively reflect improved mood, but authority respect has the opposite effect. Sexual activity and nerve breakdown exhibit bidirectional patterns, with the likelihood of a positive classification rising with increased severity. Anorexia, weariness, and overthinking all cluster near zero, indicating a lower capacity for discrimination.
+
+In type 2 bipolar disorder, which has the smallest SHAP range (±0.15) and subtler feature impacts, sexual activity has a negative impact at low intensity but a positive impact at high intensity. The most powerful positive predictor of depression is mood swings, which can reach +0.3. Suicidal thoughts have context-dependent effects and a bimodal distribution within a range of ±0.2. The contributions of nervous breakdown, aggressive reaction, and try explanation shift from negative to positive as the intensity increases. On the other hand, optimism and euphoria have a detrimental effect all around, according to clinical expectations. In normal classification, which exhibits balanced SHAP distributions, most characteristics have a negative contribution when their intensity is high. Suicidal thoughts, nervous breakdown, and mood swings severely rule out normal states.
+
+Optimism shows a unique pattern where moderate values contribute positively while extreme values contribute negatively indicating that balanced optimism aligns with mental well-being.
+
+\includegraphics[width=6.26772in,height=1.70833in]{/Users/ketakiparanjape/Documents/Projects/FormatNowAG/tmp/uploads/media/image3.png}
+
+Fig 3. SHAP Plots for Type 1 Bipolar, Type 2 Bipolar, Depression and Normal respectively
+
+Across all diagnostic categories, the SHAP analysis provides clinically meaningful insights. Each class exhibits unique patterns of feature contribution, with mood swings, albeit with different intensity ranges, consistently emerging as a significant discriminating factor. Many symptoms show threshold effects, where low levels contribute negatively and higher intensities become positive predictors, indicating nonlinear diagnostic associations. Type 1 and Type 2 bipolar disorders exhibit different feature contribution patterns; Type 2 bipolar disorders have more constrained SHAP ranges, which is consistent with their more muted clinical presentation. The absence of psychiatric symptoms is the main characteristic that defines the normal classification, rather than the obvious positive indicators that align with the clinical definition of mental health.
+
+\section{Conclusion}
+
+In mental health interpretability of results is important. Our study is a step to show that attention-based deep learning modelling along with SHAP improves interpretability in mental health classification tasks. The method identifies disorder-specific symptom contributions which are clinically important. It achieves a high accuracy of classification of mental disorders consisting of Type 1, Type 2 bipolar disorder, depression and normal people. Using Attention mechanisms in our deep learning model enhances the identification of mental disorder patterns. The model also helps reveal severity-dependent symptom associations. For psychiatric evaluations and assessments these associations are vital. The data weights are adjusted based on clinical importance. Good accuracy and clear diagnostic paths indicate strong application potential. They can help reasoning clinical decisions. Domain-specific explainability is a promising research direction. Our work is a small step in this direction. The work achieves balance between diagnostic precision and transparency.
+
+\textbf{References}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  M. Srividya, S. Mohanavalli, and N. Bhalaji. 2018. Behavioral modeling for mental health using machine learning algorithms. Journal of Medical Systems, 42, 5 (May 2018), 88.
+\item
+  R. Abd Rahman, K. Omar, S.A. Noah, M.S. Danuri, and M.A. Al-Garadi. 2020. Application of machine learning methods in mental health detection: a systematic review. IEEE Access, 8 (Oct. 2020), 183952--183964.
+\item
+  J. Chung and J. Teo. 2022. Mental health prediction using machine learning: taxonomy, applications, and challenges. Applied Computational Intelligence and Soft Computing, 2022, 1 (2022), 9970363.
+\item
+  G. Cho, J. Yim, Y. Choi, J. Ko, and S.H. Lee. 2019. Review of machine learning algorithms for diagnosing mental illness. Psychiatry Investigation, 16, 4 (Apr. 2019), 262--270.
+\item
+  A.E. Tate, R.C. McCabe, H. Larsson, S. Lundström, P. Lichtenstein, and R. Kuja-Halkola. 2020. Predicting mental health problems in adolescence using machine learning techniques. PLOS ONE, 15, 4 (Apr. 2020), e0230389.
+\item
+  N.K. Iyortsuun, S.H. Kim, M. Jhon, H.J. Yang, and S. Pant. 2023. A review of machine learning and deep learning approaches on mental health diagnosis. In Healthcare (Vol. 11, No. 3, p. 285). MDPI.
+\item
+  A. Le Glaz, Y. Haralambous, D.H. Kim-Dufor, P. Lenca, R. Billot, T.C. Ryan, J. Marsh, J. Devylder, M. Walter, S. Berrouiguet, and C. Lemey. 2021. Machine learning and natural language processing in mental health: systematic review. Journal of Medical Internet Research, 23, 5 (May 2021), e15708.
+\item
+  P. Chen, W. Dong, J. Wang, X. Lu, U. Kaymak, and Z. Huang. 2020. Interpretable clinical prediction via attention-based neural network. BMC Medical Informatics and Decision Making, 20, Suppl. 3 (Jul. 2020), 131.
+\item
+  T. Shawly and A.A. Alsheikhy. 2025. EEG-based detection of epileptic seizures in patients with disabilities using a novel attention-driven deep learning framework with SHAP interpretability. Egyptian Informatics Journal, 31 (Sep. 2025), 100734.
+\item
+  U. Ahmed, R.H. Jhaveri, G. Srivastava, and J.C. Lin. 2022. Explainable deep attention active learning for sentimental analytics of mental disorder. Transactions on Asian and Low-Resource Language Information Processing, 2022.
+\item
+  Y. Ibrahimov, T. Anwar, and T. Yuan. 2024. Explainable AI for mental disorder detection via social media: A survey and outlook. arXiv preprint arXiv:2406.05984 (Jun. 2024).
+\item
+  S. Dalal, D. Tilwani, M. Gaur, S. Jain, V.L. Shalin, and A.P. Sheth. 2024. A cross attention approach to diagnostic explainability using clinical practice guidelines for depression. IEEE Journal of Biomedical and Health Informatics (Oct. 2024).
+\item
+  T. Shaik, X. Tao, H. Xie, L. Li, N. Higgins, and J.D. Velásquez. 2025. Towards transparent deep learning in medicine: Feature contribution and attention mechanism-based explainability. Human-Centric Intelligent Systems (Jun. 2025), 1--21.
+\item
+  R. Tanwar, G. Singh, and P.K. Pal. 2024. A hybrid transposed attention-based deep learning model for wearable and explainable stress recognition. Computers and Electrical Engineering, 119 (Nov. 2024), 109551.
+\item
+  D. Jain, S. Arora, C.K. Jha, and G. Malik. 2024. Text classification models for personality disorders identification. Social Network Analysis and Mining, 14, 1 (Mar. 2024), 64.
+\item
+  D. Jain, S. Arora, and C.K. Jha. 2019. Diagnosis of psychopathic personality disorder with speech patterns. In Proceedings of the International Conference on Advanced Informatics for Computing Research (ICAICR 2019), 411--421. Springer, Singapore.
+\item
+  cid007. 2024. Mental Disorder Classification. Kaggle. https://www.kaggle.com/datasets/cid007/mental-disorder-classification
+\end{enumerate}
+\end{document}

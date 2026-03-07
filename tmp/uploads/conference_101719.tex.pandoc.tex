@@ -1,0 +1,32 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{$if(title)$$title$$else$Research Paper$endif$}
+
+\author{
+$for(author)$
+\IEEEauthorblockN{$author.name$}
+\IEEEauthorblockA{$if(author.affiliation)$$author.affiliation$$endif$\\
+$if(author.email)$$author.email$$endif$}
+$sep$\and 
+$endfor$
+}
+
+\maketitle
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$body$
+\end{document}

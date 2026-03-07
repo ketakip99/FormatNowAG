@@ -1,0 +1,14 @@
+title: |-
+  Interpretable Mental Disorder Classification Using Attention-Based Neural Networks and SHAP Explainability
+abstract: |-
+  Mental health disorders affect millions of people worldwide. Accurate diagnosis of it is difficult due as it has complex psychological symptoms. This paper introduces an attention-based neural network for mental order classification along with SHAP. SHAP helps for improved understanding and interpreting mental disorders. We use 17 behavioural symptoms to classify type 1 and type 2 bipolar disorder, depression and normal individuals. The attention mechanism helps the model focus on clinically relevant symptom patterns. SHAP analysis clarifies diagnostic decisions. The model gave 99.3% training accuracy and 90% validation accuracy on the psychology patient dataset we used. SHAP visualizations show interactions of features, affirming medical understanding of results. The results show that symptoms like elevated mood and energy levels distinguish bipolar subtypes. Medical personnel can readily use this tool for accurate and transparent diagnosis given its performance and explainable insights.
+author:
+  - name: "Sandhya Arora"
+    affiliation: "MKSSS's Cummins College of Engineering for Women, Pune, India"
+    email: "sandhya.arora@cumminscollege.in"
+  - name: "Rajasi Barapatre"
+    affiliation: "MKSSS's Cummins College of Engineering for Women, Pune, India"
+    email: "rajasi.barapatre@gmail.com"
+  - name: "Ketaki Paranjape"
+    affiliation: "MKSSS's Cummins College of Engineering for Women, Pune, India"
+    email: "ketakiparanjape1411@gmail.com"
